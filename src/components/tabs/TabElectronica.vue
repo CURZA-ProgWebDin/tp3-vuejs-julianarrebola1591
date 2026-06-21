@@ -1,7 +1,7 @@
 <script setup>
   import ListaProductos from '../ListaProductos.vue';
   import { productos } from '@/data/productos.js';
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, onUnmounted, onActivated, onDeactivated } from 'vue'
 
   const productosCargados = ref([])
   const cargando = ref(false)
@@ -12,13 +12,18 @@
   await new Promise(resolve => setTimeout(resolve, 800))
   productosCargados.value = productos.filter(producto => producto.categoria === 'Electrónica')
   cargando.value = false
+
 }
 
 
 onMounted(() => {
   cargarProductos()
-  timer = setInterval(cargarProductos, 10000)
+  timer = setInterval(cargarProductos, 30000)
+  console.log('TabTodos — montado')
 })
+onUnmounted(()    => console.log('TabTodos — desmontado'))
+onActivated(()    => console.log('TabTodos — activado'))
+onDeactivated(()  => console.log('TabTodos — desactivado'))
 
 </script>
 
